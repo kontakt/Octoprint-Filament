@@ -1,3 +1,5 @@
+<h4>{{ _('Filament Sensor') }}</h4>
+Define the pin used by your sensor and the debounce timing for false positive prevention.<br />
 <form class="form-horizontal">
     <div class="control-group">
         <label class="control-label">{{ _('Pin') }}</label>
@@ -6,9 +8,10 @@
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label">{{ _('Debounce Length(ms)') }}</label>
+        <label class="control-label">{{ _('Debounce Length') }}</label>
         <div class="controls">
             <input type="number" step="any" min="0" class="input-mini text-right" data-bind="value: settings.plugins.filament.bounce">
+            <span class="add-on">ms</span>
         </div>
     </div>
 </form>

@@ -44,6 +44,12 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			bounce = 300
 		)
 
+	def get_template_configs(self):
+    	return dict(
+			pin = self._settings.get(["pin"]),
+			bounce = self._settings.get(["bounce"])
+		)
+
 
 	@octoprint.plugin.BlueprintPlugin.route("/status", methods=["GET"])
 	def check_status(self):
