@@ -14,6 +14,7 @@ import RPi.GPIO as GPIO
 
 class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 							octoprint.plugin.SettingsPlugin,
+							octoprint.plugin.TemplatePlugin,
 							octoprint.plugin.EventHandlerPlugin,
 							octoprint.plugin.BlueprintPlugin):
 
@@ -42,6 +43,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			pin = -1,
 			bounce = 300
 		)
+
 
 	@octoprint.plugin.BlueprintPlugin.route("/status", methods=["GET"])
 	def check_status(self):
