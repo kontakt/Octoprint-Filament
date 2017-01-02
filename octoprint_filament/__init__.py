@@ -10,7 +10,7 @@ from flask import jsonify, request
 
 import logging
 import logging.handlers
-import RPi.GPIO as GPIO 
+import RPi.GPIO as GPIO
 
 class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 							octoprint.plugin.SettingsPlugin,
@@ -19,24 +19,24 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 
 	def initialize(self):
 		self._logger.setLevel(logging.DEBUG)
-		
+
 		self._logger.info("Running RPi.GPIO version '{0}'...".format(GPIO.VERSION))
 		if GPIO.VERSION < "0.6":
 			raise Exception("RPi.GPIO must be greater than 0.6")
-			
+
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
-		
+
 		self._logger.info("Filament Sensor Plugin [%s] initialized..."%self._identifier)
 
 	def on_after_startup(self):
 		self.PIN_FILAMENT = self._settings.get(["pin"])
 		self.BOUNCE = self._settings.get_int(["bounce"])
-		
+
 		if self.PIN_FILAMENT != -1:
 			self._logger.info("Filament Sensor Plugin setup on GPIO [%s]..."%self.PIN_FILAMENT)
 			GPIO.setup(self.PIN_FILAMENT, GPIO.IN)
-		
+
 	def get_settings_defaults(self):
 		return dict(
 			pin = -1,
@@ -49,7 +49,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		if self.PIN_FILAMENT != -1:
 			status = "1" if GPIO.input(self.PIN_FILAMENT) else "0"
 		return jsonify( status = status )
-		
+
 	def on_event(self, event, payload):
 		if event == Events.PRINT_STARTED:
 			self._logger.info("Printing started. Filament sensor enabled.")
@@ -67,7 +67,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		except:
 			pass
 		if self.PIN_FILAMENT != -1:
-			GPIO.add_event_detect(self.PIN_FILAMENT, GPIO.FALLING, callback=self.check_gpio, bouncetime=self.BOUNCE) 
+			GPIO.add_event_detect(self.PIN_FILAMENT, GPIO.FALLING, callback=self.check_gpio, bouncetime=self.BOUNCE)
 
 	def check_gpio(self, channel):
 		state = GPIO.input(self.PIN_FILAMENT)
@@ -98,10 +98,9 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		)
 
 __plugin_name__ = "Filament Sensor"
-__plugin_version__ = "1.0.1"
+__plugin_version__ = "1.1.0"
 __plugin_description__ = "Use a filament sensor to pause printing when filament runs out."
 
 def __plugin_load__():
 	global __plugin_implementation__
 	__plugin_implementation__ = FilamentSensorPlugin()
-
