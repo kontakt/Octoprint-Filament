@@ -6,7 +6,7 @@ import octoprint.settings
 import octoprint.util
 
 from octoprint.events import eventManager, Events
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 
 import logging
 import logging.handlers
