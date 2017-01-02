@@ -45,7 +45,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		)
 
 	def get_template_configs(self):
-    	return dict(
+		return dict(
 			pin = self._settings.get(["pin"]),
 			bounce = self._settings.get(["bounce"])
 		)
